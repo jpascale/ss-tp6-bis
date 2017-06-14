@@ -5,25 +5,25 @@ import utils.RandomUtils;
 public class Particle {
 	
 	private int id;
-	protected Point position;
-	protected Point velocity;
+	protected Pair position;
+	protected Pair velocity;
 	private double radius;
 	private double mass;
 	
 
 	public Particle(int id, double x, double y, double vx, double vy, double m, double r) {
 		this.id = id;
-		this.position = new Point(x, y);
-		this.velocity = new Point(vx, vy);
+		this.position = new Pair(x, y);
+		this.velocity = new Pair(vx, vy);
 		this.mass = m;
 		this.radius = r;
 	}
 	
 	public Particle(int id, double x, double y, double velAbs, double m, double r) {
 		this.id = id;
-		this.position = new Point(x, y);
+		this.position = new Pair(x, y);
 		double angle = RandomUtils.getRandomDouble(0, 2*Math.PI);
-		this.velocity = new Point(velAbs * Math.cos(angle), velAbs * Math.sin(angle));
+		this.velocity = new Pair(velAbs * Math.cos(angle), velAbs * Math.sin(angle));
 		this.mass = m;
 		this.radius = r;
 	}
@@ -40,7 +40,7 @@ public class Particle {
 		return position.y;
 	}
 	
-	public Point getPosition() {
+	public Pair getPosition() {
 		return position;
 	}
 	
@@ -52,7 +52,7 @@ public class Particle {
 		return velocity.y;
 	}
 	
-	public Point getVelocity(){
+	public Pair getVelocity(){
 		return velocity;
 	}
 	
@@ -65,23 +65,23 @@ public class Particle {
 	}
 	
 	public void updatePosition(double x, double y) {
-		this.position = new Point(x, y);
+		this.position = new Pair(x, y);
 	}
 	
 	
 	public void updateVelocity(double x, double y) {
-		this.velocity = new Point(x, y);
+		this.velocity = new Pair(x, y);
 	}
 	
 	
 	public void move(double time){
-		Point deltaPosition = velocity.clone();
+		Pair deltaPosition = velocity.clone();
 		deltaPosition.applyFunction(v->v*time);
 		position.add(deltaPosition);
 	}
 	
 	public static <T extends Particle> boolean areOverlapped(T p, T q){
-		return Point.dist2(p.position, q.position) <= Math.pow(p.getRadius()+q.getRadius(),2);
+		return Pair.dist2(p.position, q.position) <= Math.pow(p.getRadius()+q.getRadius(),2);
 	}
 
 	public double getSpeed() {

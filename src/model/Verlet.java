@@ -38,23 +38,23 @@ public class Verlet {
 	}
 
 	public void run() {
-		Map<VerletParticle, Point> forces = new HashMap<VerletParticle, Point>();
+		Map<VerletParticle, Pair> forces = new HashMap<VerletParticle, Pair>();
 		Map<VerletParticle, Set<VerletParticle>> neighbours = cim.getNeighbours();
 		for (VerletParticle p : neighbours.keySet()) {
 			p.resetPressure();
-			Point force = p.getOwnForce();
+			Pair force = p.getOwnForce();
 			for (VerletParticle q : neighbours.get(p)) {
-				Point[] forceComponents = p.getForce(q);
-				force.add(Point.sum(forceComponents[0], forceComponents[1]));
+				Pair[] forceComponents = p.getForce(q);
+				force.add(Pair.sum(forceComponents[0], forceComponents[1]));
 				p.addPressure(forceComponents[0]);
 			}
-			force = Point.sum(force, wallForce(p));
+			force = Pair.sum(force, wallForce(p));
 			forces.put(p, force);
 		}
 
 		time += dt;
 		for (VerletParticle p : neighbours.keySet()) {
-			Point oldPosition = p.getOldPosition();
+			Pair oldPosition = p.getOldPosition();
 			updatePosition(p, forces.get(p), dt);
 			updateVelocity(p, oldPosition, dt);
 		}
@@ -66,28 +66,28 @@ public class Verlet {
 
 	static double time = 0;
 
-	private Point wallForce(VerletParticle p) {
-		Point sum = new Point(0, 0);
+	private Pair wallForce(VerletParticle p) {
+		Pair sum = new Pair(0, 0);
 		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.fall) {
-			Point[] force = ForcesUtils.wallLeftForce(p);
-			sum.add(Point.sum(force[0], force[1]));
+			Pair[] force = ForcesUtils.wallLeftForce(p);
+			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
 		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.fall) {
-			Point[] force = ForcesUtils.wallRightForce(p);
-			sum.add(Point.sum(force[0], force[1]));
+			Pair[] force = ForcesUtils.wallRightForce(p);
+			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
 		if (Math.abs(p.position.y - Main.fall) < p.getRadius()) {
 			if (inGap(p)) {
 				for (VerletParticle particle : vertexParticles) {
-					Point[] forceComponents = p.getForce(particle);
-					sum.add(Point.sum(forceComponents[0], forceComponents[1]));
+					Pair[] forceComponents = p.getForce(particle);
+					sum.add(Pair.sum(forceComponents[0], forceComponents[1]));
 					p.addPressure(forceComponents[0]);
 				}
 			} else {
-				Point[] force = ForcesUtils.wallBottomForce(p);
-				sum.add(Point.sum(force[0], force[1]));
+				Pair[] force = ForcesUtils.wallBottomForce(p);
+				sum.add(Pair.sum(force[0], force[1]));
 				p.addPressure(force[0]);
 			}
 		}
@@ -101,7 +101,7 @@ public class Verlet {
 		return x >= w2 - d2 && x <= w2 + d2;
 	}
 
-	private void updatePosition(VerletParticle p, Point force, double dt) {
+	private void updatePosition(VerletParticle p, Pair force, double dt) {
 		double rx = 2 * p.position.x - p.getOldPosition().x + force.x * Math.pow(dt, 2) / p.getMass();
 		double ry = 2 * p.position.y - p.getOldPosition().y + force.y * Math.pow(dt, 2) / p.getMass();
 
@@ -111,7 +111,7 @@ public class Verlet {
 		}
 	}
 
-	private void updateVelocity(VerletParticle p, Point oldPosition, double dt) {
+	private void updateVelocity(VerletParticle p, Pair oldPosition, double dt) {
 		double vx = (p.position.x - oldPosition.x) / (2 * dt);
 		double vy = (p.position.y - oldPosition.y) / (2 * dt);
 		p.updateVelocity(vx, vy);
