@@ -1,7 +1,7 @@
 package ar.edu.itba.ss.particle;
 
 import ar.edu.itba.ss.main.Main;
-import ar.edu.itba.ss.output.SocialModel;
+import ar.edu.itba.ss.main.SocialModel;
 
 public class EscapeParticle extends VerletParticle {
 

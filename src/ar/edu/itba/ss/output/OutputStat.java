@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OutputFileGenerator {
+public class OutputStat {
 
 	private String fileName;
 	List<String> lines = new ArrayList<>();
 	
-	public OutputFileGenerator(String file) {
+	public OutputStat(String file) {
         this.fileName = file;
     }
 	

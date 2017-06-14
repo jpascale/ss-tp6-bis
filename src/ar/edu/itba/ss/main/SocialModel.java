@@ -1,8 +1,7 @@
-package ar.edu.itba.ss.output;
+package ar.edu.itba.ss.main;
 
 import ar.edu.itba.ss.particle.Pair;
 import ar.edu.itba.ss.particle.VerletParticle;
-import ar.edu.itba.ss.main.Main;
 
 public class SocialModel {
 
@@ -32,7 +31,7 @@ public class SocialModel {
 	}
 
 	public static Pair getDrivingForce(Double mass, Pair velocity, Pair normal) {
-		double drivingV = Main.drivingV;
+		double drivingV = Main.desiredVelocity;
 		double tau = Main.TAU;
 		Pair n = normal.clone();
 		n.times(drivingV);

@@ -8,7 +8,7 @@ import java.util.Set;
 
 import ar.edu.itba.ss.main.Main;
 import ar.edu.itba.ss.cell.CellIndexMethod;
-import ar.edu.itba.ss.output.SocialModel;
+import ar.edu.itba.ss.main.SocialModel;
 
 public class Verlet {
 
