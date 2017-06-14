@@ -25,8 +25,8 @@ public class EscapeParticle extends VerletParticle {
 	private Pair getDrivingForce() {
 
 		Pair targetPosition;
-		if (getY()> Main.fall) {
-			targetPosition = new Pair(Main.W / 2, Main.fall);
+		if (getY()> Main.floorDistance) {
+			targetPosition = new Pair(Main.W / 2, Main.floorDistance);
 		}else{
 			targetPosition = new Pair(getX(), -1);
 		}

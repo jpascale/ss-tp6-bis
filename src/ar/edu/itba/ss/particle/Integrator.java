@@ -20,10 +20,10 @@ public class Integrator {
 		estimateOldPosition();
 		vertexParticles = new LinkedList<>();
 		vertexParticles
-				.add(new EscapeParticle(0, Main.W / 2 - Main.D / 2, Main.fall, 0, 0, 0, 0));
+				.add(new EscapeParticle(0, Main.W / 2 - Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
 		vertexParticles
-				.add(new EscapeParticle(0, Main.W / 2 + Main.D / 2, Main.fall, 0, 0, 0, 0));
-		cim = new CellIndexMethod<VerletParticle>(particles, Main.L + Main.fall, 1.6, 1, false);
+				.add(new EscapeParticle(0, Main.W / 2 + Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
+		cim = new CellIndexMethod<VerletParticle>(particles, Main.L + Main.floorDistance, 1.6, 1, false);
 		toRemove = new LinkedList<VerletParticle>();
 	}
 
@@ -64,17 +64,17 @@ public class Integrator {
 
 	private Pair wallForce(VerletParticle p) {
 		Pair sum = new Pair(0, 0);
-		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.fall) {
+		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.floorDistance) {
 			Pair[] force = SocialModel.checkWallLeft(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
-		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.fall) {
+		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.floorDistance) {
 			Pair[] force = SocialModel.checkWallRight(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
-		if (Math.abs(p.position.y - Main.fall) < p.getRadius()) {
+		if (Math.abs(p.position.y - Main.floorDistance) < p.getRadius()) {
 			if (inGap(p)) {
 				for (VerletParticle particle : vertexParticles) {
 					Pair[] forceComponents = p.getForce(particle);

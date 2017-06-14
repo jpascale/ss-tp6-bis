@@ -17,7 +17,7 @@ public class SocialModel {
 	}
 
 	public static Pair[] checkWallBottom(VerletParticle p) {
-		double e = -(p.getY() - Main.fall) + p.getRadius();
+		double e = -(p.getY() - Main.floorDistance) + p.getRadius();
 		return getContactForce(p.getVelocity(), new Pair(0, -1), new Pair(1, 0), e);
 	}
 

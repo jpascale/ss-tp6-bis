@@ -17,7 +17,7 @@ public class Main {
 	static public double W = 20.0;
     static public double L = 20.0;
     static public double D = 1.2;
-    static public double fall = 4.0;
+    static public double floorDistance = 4.0;
 	static public double desiredVelocity = 3.4;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
@@ -32,7 +32,7 @@ public class Main {
 	private static EscapeParticle createRandomParticle() {
 		double r = randomNumber(0.5, 0.58) / 2.0;
 		double x = randomNumber(r, W - r);
-		double y = randomNumber(r + fall, (L + fall) - r);
+		double y = randomNumber(r + floorDistance, (L + floorDistance) - r);
 		return new EscapeParticle(id_count, x, y, 0, 0, mass, r);
 	}
 
@@ -99,7 +99,7 @@ public class Main {
 	private static int getCaudal(List<VerletParticle> particles) {
 		int caudal = 0;
 		for (VerletParticle particle : particles) {
-			if (particle.getOldPosition().y > fall && particle.getPosition().y <= fall) {
+			if (particle.getOldPosition().y > floorDistance && particle.getPosition().y <= floorDistance) {
 				caudal += 1;
 			}
 		}
