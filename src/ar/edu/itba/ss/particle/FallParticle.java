@@ -32,7 +32,7 @@ public class FallParticle extends EscapingParticle {
 		}
 		Pair dir = Pair.sub(targetPosition, position);
 		dir.normalize();
-		return SocialModel.getDrivingForce(getMass(), velocity, dir);
+		return SocialModel.getDrivingForce(velocity, dir);
 	}
 
 	private Pair getSocialForce(Particle p) {
