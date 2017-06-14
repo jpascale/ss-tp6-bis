@@ -1,6 +1,6 @@
 package model;
 
-import run.EscapeRunner;
+import run.Main;
 import utils.ForcesUtils;
 
 public class EscapeParticle extends VerletParticle {
@@ -25,17 +25,17 @@ public class EscapeParticle extends VerletParticle {
 	private Point getDrivingForce() {
 		// the door position
 		Point targetPosition = null;
-		if(getY()>EscapeRunner.fall){
+		if(getY()> Main.fall){
 			double x;
-			if(getX()<EscapeRunner.W / 2 - EscapeRunner.D/2 + getRadius()){
-				x = EscapeRunner.W / 2 - EscapeRunner.D/2 + getRadius();
+			if(getX()< Main.W / 2 - Main.D/2 + getRadius()){
+				x = Main.W / 2 - Main.D/2 + getRadius();
 			}else
-			if(getX()>EscapeRunner.W / 2 + EscapeRunner.D/2 - getRadius()){
-				x = EscapeRunner.W / 2 + EscapeRunner.D/2 - getRadius();
+			if(getX()> Main.W / 2 + Main.D/2 - getRadius()){
+				x = Main.W / 2 + Main.D/2 - getRadius();
 			}else{
 				x = getX();
 			}
-			targetPosition = new Point(EscapeRunner.W / 2, EscapeRunner.fall);
+			targetPosition = new Point(Main.W / 2, Main.fall);
 		}else{
 			targetPosition = new Point(getX(), -1);
 		}

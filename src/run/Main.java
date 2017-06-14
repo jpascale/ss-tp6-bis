@@ -1,8 +1,5 @@
 package run;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import model.EscapeParticle;
 import model.Particle;
 import model.Verlet;
@@ -11,35 +8,35 @@ import utils.OutputFileGenerator;
 import utils.OutputXYZFilesGenerator;
 import utils.RandomUtils;
 
-public class EscapeRunner {
+import java.util.ArrayList;
+import java.util.List;
 
-	private double time;
+public class Main {
+
+	static private double time;
 	static public double W = 20.0, L = 20.0, D = 1.2, fall = 4.0;
 	static public double drivingV = 1.5;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
-	private int N = 200;
+	static private int N = 50;
 	static final public double tau = 0.5;
-	private int idCounter = 1;
-	private final double mass = 50;
-	private final double maxTime = 5.0;
-	private final double dt = 1e-4;
-	private final double dt2 = 1.0 / 250;
-	private final double MAX_ENERGY = 1e-6;
+	static private int idCounter = 1;
+	private static final double mass = 50;
+	private static final double maxTime = 5.0;
+	private static final double dt = 1e-4;
+	private static final double dt2 = 1.0 / 250;
+	private static final double MAX_ENERGY = 1e-6;
 
-	public EscapeRunner() {
-		RandomUtils.setSeed(1234);
-		this.run();
-	}
 
-	private EscapeParticle createRandomParticle() {
+
+	private static EscapeParticle createRandomParticle() {
 		double r = RandomUtils.getRandomDouble(0.5, 0.58) / 2.0;
 		double x = RandomUtils.getRandomDouble(r, W - r);
 		double y = RandomUtils.getRandomDouble(r + fall, (L + fall) - r);
 		return new EscapeParticle(idCounter, x, y, 0, 0, mass, r);
 	}
 
-	private List<VerletParticle> createParticles(int N) {
+	private static List<VerletParticle> createParticles(int N) {
 		List<VerletParticle> list = new ArrayList<VerletParticle>();
 		while (idCounter - 1 < N) {
 			EscapeParticle p = createRandomParticle();
@@ -58,7 +55,8 @@ public class EscapeRunner {
 		return list;
 	}
 
-	private void run() {
+    public static void main(String[] args){
+        RandomUtils.setSeed(1234);
 		OutputXYZFilesGenerator outputXYZFilesGenerator = new OutputXYZFilesGenerator("animation/", "state");
 		OutputFileGenerator kineticEnergy = new OutputFileGenerator("animation/", "kinetic");
 		OutputFileGenerator caudal = new OutputFileGenerator("animation/", "caudal");
@@ -68,7 +66,7 @@ public class EscapeRunner {
 		int totalCaudal = 0;
 		double lastTime = -dt2-1.0;
 		double maxPressure = 0.0;
-		double energy = Double.POSITIVE_INFINITY;
+		double energy;
 
 		while (totalCaudal < N) {
 			if (lastTime + dt2 < time) {
@@ -94,7 +92,7 @@ public class EscapeRunner {
 		caudal.writeFile();
 	}
 
-	private int getCaudal(List<VerletParticle> particles) {
+	private static int getCaudal(List<VerletParticle> particles) {
 		int caudal = 0;
 		for (VerletParticle particle : particles) {
 			if (particle.getOldPosition().y > fall && particle.getPosition().y <= fall) {
@@ -104,7 +102,7 @@ public class EscapeRunner {
 		return caudal;
 	}
 
-	private double getSystemKineticEnery(List<VerletParticle> particles) {
+	private static double getSystemKineticEnery(List<VerletParticle> particles) {
 		double K = 0;
 		for (VerletParticle vp : particles) {
 			K += vp.getKineticEnergy();

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import run.EscapeRunner;
+import run.Main;
 import utils.CellIndexMethod;
 import utils.ForcesUtils;
 
@@ -24,10 +24,10 @@ public class Verlet {
 		estimateOldPosition();
 		vertexParticles = new LinkedList<>();
 		vertexParticles
-				.add(new EscapeParticle(0, EscapeRunner.W / 2 - EscapeRunner.D / 2, EscapeRunner.fall, 0, 0, 0, 0));
+				.add(new EscapeParticle(0, Main.W / 2 - Main.D / 2, Main.fall, 0, 0, 0, 0));
 		vertexParticles
-				.add(new EscapeParticle(0, EscapeRunner.W / 2 + EscapeRunner.D / 2, EscapeRunner.fall, 0, 0, 0, 0));
-		cim = new CellIndexMethod<VerletParticle>(particles, EscapeRunner.L + EscapeRunner.fall, 1.6, 1, false);
+				.add(new EscapeParticle(0, Main.W / 2 + Main.D / 2, Main.fall, 0, 0, 0, 0));
+		cim = new CellIndexMethod<VerletParticle>(particles, Main.L + Main.fall, 1.6, 1, false);
 		toRemove = new LinkedList<VerletParticle>();
 	}
 
@@ -68,17 +68,17 @@ public class Verlet {
 
 	private Point wallForce(VerletParticle p) {
 		Point sum = new Point(0, 0);
-		if (p.position.x - p.getRadius() < 0 && p.position.y > EscapeRunner.fall) {
+		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.fall) {
 			Point[] force = ForcesUtils.wallLeftForce(p);
 			sum.add(Point.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
-		if (p.position.x + p.getRadius() > EscapeRunner.W && p.position.y > EscapeRunner.fall) {
+		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.fall) {
 			Point[] force = ForcesUtils.wallRightForce(p);
 			sum.add(Point.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
-		if (Math.abs(p.position.y - EscapeRunner.fall) < p.getRadius()) {
+		if (Math.abs(p.position.y - Main.fall) < p.getRadius()) {
 			if (inGap(p)) {
 				for (VerletParticle particle : vertexParticles) {
 					Point[] forceComponents = p.getForce(particle);
@@ -96,8 +96,8 @@ public class Verlet {
 
 	public boolean inGap(VerletParticle verletParticle) {
 		double x = verletParticle.getX();
-		double w2 = EscapeRunner.W / 2;
-		double d2 = EscapeRunner.D / 2;
+		double w2 = Main.W / 2;
+		double d2 = Main.D / 2;
 		return x >= w2 - d2 && x <= w2 + d2;
 	}
 

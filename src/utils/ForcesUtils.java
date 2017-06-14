@@ -2,13 +2,13 @@ package utils;
 
 import model.Point;
 import model.VerletParticle;
-import run.EscapeRunner;
+import run.Main;
 
 public class ForcesUtils {
 
 	public static Point[] getForce(Point relativeVelocity, Point normal, Point tangential, double e) {
-		double Kn = EscapeRunner.Kn;
-		double Kt = EscapeRunner.Kt;
+		double Kn = Main.Kn;
+		double Kt = Main.Kt;
 		Point n = normal.clone();
 		n.applyFunction(x -> (-Kn * e * x));
 		double prod = Point.scalarProd(relativeVelocity, tangential);
@@ -17,7 +17,7 @@ public class ForcesUtils {
 	}
 
 	public static Point[] wallRightForce(VerletParticle p) {
-		double e = p.getX() - EscapeRunner.W + p.getRadius();
+		double e = p.getX() - Main.W + p.getRadius();
 		return getForce(p.getVelocity(), new Point(1, 0), new Point(0, 1), e);
 	}
 
@@ -27,14 +27,14 @@ public class ForcesUtils {
 	}
 
 	public static Point[] wallBottomForce(VerletParticle p) {
-		double e = -(p.getY() - EscapeRunner.fall) + p.getRadius();
+		double e = -(p.getY() - Main.fall) + p.getRadius();
 		return getForce(p.getVelocity(), new Point(0, -1), new Point(1, 0), e);
 	}
 	
 	public static Point getDrivingForce(Double mass, Point velocity, Point normal) {
 		//revisar esto
-		double drivingV = EscapeRunner.drivingV;
-		double tau = EscapeRunner.tau;
+		double drivingV = Main.drivingV;
+		double tau = Main.tau;
 		Point n = normal.clone();
 		n.times(drivingV);
 		Point f = Point.sub(n, velocity);
@@ -43,8 +43,8 @@ public class ForcesUtils {
 	}
 	
 	public static Point getSocialForce(Point normal, double e) {
-		double A = EscapeRunner.A;
-		double B = EscapeRunner.B;
+		double A = Main.A;
+		double B = Main.B;
 		Point n = normal.clone();
 		n.times(A * Math.exp(-e/B));
 		return n;

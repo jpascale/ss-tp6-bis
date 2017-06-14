@@ -9,7 +9,7 @@ import java.util.List;
 
 import model.Particle;
 import model.VerletParticle;
-import run.EscapeRunner;
+import run.Main;
 
 public class OutputXYZFilesGenerator {
 
@@ -44,14 +44,14 @@ public class OutputXYZFilesGenerator {
 
 	private int addBorderParticles(List<String> lines) {
 		int counter = 0;
-		for (double i = 0; i * 0.02 <= EscapeRunner.L; i++) {
-			lines.add("10000 0 " + (i * 0.02 + EscapeRunner.fall) + " 0 0 0.02 0 1 0 0 0");
-			lines.add("10000 " + EscapeRunner.W + " " + (i * 0.02 + EscapeRunner.fall) + " 0 0 0.02 0 1 0 0 0");
+		for (double i = 0; i * 0.02 <= Main.L; i++) {
+			lines.add("10000 0 " + (i * 0.02 + Main.fall) + " 0 0 0.02 0 1 0 0 0");
+			lines.add("10000 " + Main.W + " " + (i * 0.02 + Main.fall) + " 0 0 0.02 0 1 0 0 0");
 			counter += 2;
 		}
-		for (int i = 0; i * 0.02 <= (EscapeRunner.W - EscapeRunner.D) / 2; i++) {
-			lines.add("10000 " + i * 0.02 + " " + EscapeRunner.fall + " 0 0 0.02 0 1 0 0 0");
-			lines.add("10000 " + (EscapeRunner.W - i * 0.02) + " " + EscapeRunner.fall + " 0 0 0.02 0 1 0 0 0");
+		for (int i = 0; i * 0.02 <= (Main.W - Main.D) / 2; i++) {
+			lines.add("10000 " + i * 0.02 + " " + Main.fall + " 0 0 0.02 0 1 0 0 0");
+			lines.add("10000 " + (Main.W - i * 0.02) + " " + Main.fall + " 0 0 0.02 0 1 0 0 0");
 			counter += 2;
 		}
 		return counter;
