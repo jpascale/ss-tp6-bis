@@ -18,20 +18,5 @@ public class RandomUtils {
 		}
 		return random.nextDouble()*(max-min)+min;
 	}
-	
-	public static int getRandomInt(int min, int max){
-		if(!seedSet){
-			System.err.println("Warning! Random seed not set");
-		}
-		return random.nextInt(max-min+1)+min;
-	}
-	
-	public static double getSign(){
-		if(random.nextBoolean()){
-			return 1;
-		}else{
-			return -1;
-		}
-	}
 
 }

@@ -4,7 +4,7 @@ import model.Pair;
 import model.VerletParticle;
 import run.Main;
 
-public class ForcesUtils {
+public class SocialModel {
 
 	public static Pair[] getForce(Pair relativeVelocity, Pair normal, Pair tangential, double e) {
 		double Kn = Main.Kn;

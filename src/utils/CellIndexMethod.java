@@ -1,13 +1,9 @@
 package utils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import model.Pair;
 import model.Particle;
+
+import java.util.*;
 
 public class CellIndexMethod <T extends Particle> {
 
@@ -18,8 +14,7 @@ public class CellIndexMethod <T extends Particle> {
 	private double rc;
 	private int m;
 	private double l;
-	
-	//OJO
+
 	public CellIndexMethod(List<T> particle, double l, double cellLength, double rc, boolean periodicBounds){
 		this(particle, l, (int)Math.ceil(l/cellLength), rc, periodicBounds);
 	}
@@ -141,22 +136,5 @@ public class CellIndexMethod <T extends Particle> {
 		}
 		return (cellLength >= rc + max1 + max2);
 	}
-	
-	/**
-	 * 
-	 * @param particle - particle before move to new position
-	 * @param x - new x coordinate
-	 * @param y - new y coordinate
-	 */
-	public void moveTo(T particle, Pair point){
-		/*Pair p = particle.getPosition();
-		int prevX = (int) (p.x / cellLength);
-		int prevY = (int) (p.y / cellLength);
-		int postX = (int) (point.x / cellLength);
-		int postY = (int) (point.y / cellLength);
-		if(prevX != postX || prevY != postY){
-			matrix[prevX][prevY].remove(particle);
-			matrix[postX][postY].add(particle);
-		}*/
-	}
+
 }

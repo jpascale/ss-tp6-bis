@@ -43,7 +43,7 @@ public class Main {
 			EscapeParticle p = createRandomParticle();
 			boolean areOverlapped = false;
 			for (VerletParticle pp : list) {
-				if (Particle.areOverlapped(p, pp)) {
+				if (Particle.getE(p, pp)) {
 					areOverlapped = true;
 					break;
 				}
@@ -58,9 +58,9 @@ public class Main {
 
     public static void main(String[] args){
         RandomUtils.setSeed(1234);
-		Output output = new Output("out");
-		OutputFileGenerator kineticEnergy = new OutputFileGenerator("animation/", "kinetic");
-		OutputFileGenerator caudal = new OutputFileGenerator("animation/", "caudal");
+		Output output = new Output("out.txt");
+		OutputFileGenerator kineticEnergy = new OutputFileGenerator("kinetic.txt");
+		OutputFileGenerator caudal = new OutputFileGenerator("caudal.txt");
 		List<VerletParticle> particles = createParticles(N);
 		Verlet v = new Verlet(particles, dt);
 		time = 0;

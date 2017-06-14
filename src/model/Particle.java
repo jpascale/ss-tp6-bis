@@ -1,7 +1,5 @@
 package model;
 
-import utils.RandomUtils;
-
 public class Particle {
 	
 	private int id;
@@ -15,15 +13,6 @@ public class Particle {
 		this.id = id;
 		this.position = new Pair(x, y);
 		this.velocity = new Pair(vx, vy);
-		this.mass = m;
-		this.radius = r;
-	}
-	
-	public Particle(int id, double x, double y, double velAbs, double m, double r) {
-		this.id = id;
-		this.position = new Pair(x, y);
-		double angle = RandomUtils.getRandomDouble(0, 2*Math.PI);
-		this.velocity = new Pair(velAbs * Math.cos(angle), velAbs * Math.sin(angle));
 		this.mass = m;
 		this.radius = r;
 	}
@@ -44,14 +33,6 @@ public class Particle {
 		return position;
 	}
 	
-	public double getXVelocity(){
-		return velocity.x;
-	}
-	
-	public double getYVelocity(){
-		return velocity.y;
-	}
-	
 	public Pair getVelocity(){
 		return velocity;
 	}
@@ -68,33 +49,19 @@ public class Particle {
 		this.position = new Pair(x, y);
 	}
 	
-	
 	public void updateVelocity(double x, double y) {
 		this.velocity = new Pair(x, y);
 	}
+
 	
-	
-	public void move(double time){
-		Pair deltaPosition = velocity.clone();
-		deltaPosition.applyFunction(v->v*time);
-		position.add(deltaPosition);
-	}
-	
-	public static <T extends Particle> boolean areOverlapped(T p, T q){
+	public static <T extends Particle> boolean getE(T p, T q){
 		return Pair.dist2(p.position, q.position) <= Math.pow(p.getRadius()+q.getRadius(),2);
 	}
 
 	public double getSpeed() {
 		return velocity.abs();
 	}
-	
-	public void addMass(double mass) {
-		this.mass+=mass;
-	}
-	
-	public void addRadius(double radius) {
-		this.radius+=radius;
-	}
+
 
 	@Override
 	public int hashCode() {
@@ -118,8 +85,7 @@ public class Particle {
 		return true;
 	}
 
-
-	public String getInfo(String color, double transparency, int selection) {
+	public String getInfo() {
 		return getId() + " " + getX() + " " + getY() + " " + getRadius() + " " + "255 255 255";
 	}
 }

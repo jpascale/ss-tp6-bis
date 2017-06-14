@@ -12,12 +12,10 @@ import java.util.List;
 
 public class Output {
 
-	private int frameNumber;
-	private String path;
+	private String fileName;
 
-	public Output(String file) {
-		frameNumber = 0;
-		this.path = "a/" +file;
+	public Output(String fileName) {
+		this.fileName = fileName;
 		try {
 			Files.createDirectories(Paths.get("a/"));
 		} catch (Exception e) {
@@ -30,15 +28,10 @@ public class Output {
 		lines.add(String.valueOf(particles.size()));
 		lines.add("Comment");
 		for (VerletParticle p : particles) {
-			lines.add(p.getInfo(getColorByPresure(p), 0, 0));
+			lines.add(p.getInfo());
 		}
 		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + borders(lines)));
 		writeFile(lines);
-	}
-
-	private String getColorByPresure(VerletParticle p) {
-		double relativePresure = p.getPressure() / 400;
-		return relativePresure + " 0 " + (1 - relativePresure); 
 	}
 
 	private int borders(List<String> lines){
@@ -58,7 +51,7 @@ public class Output {
 
     private void writeFile(List<String> lines) {
 		try {
-            FileWriter fw = new FileWriter(path + ".txt", true);
+            FileWriter fw = new FileWriter(fileName, true);
             for (String line: lines) {
                 fw.write(line + "\n");
             }

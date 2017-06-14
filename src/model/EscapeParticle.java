@@ -1,7 +1,7 @@
 package model;
 
 import run.Main;
-import utils.ForcesUtils;
+import utils.SocialModel;
 
 public class EscapeParticle extends VerletParticle {
 
@@ -41,7 +41,7 @@ public class EscapeParticle extends VerletParticle {
 		}
 		Pair dir = Pair.sub(targetPosition, position);
 		dir.normalize();
-		return ForcesUtils.getDrivingForce(getMass(), velocity, dir);
+		return SocialModel.getDrivingForce(getMass(), velocity, dir);
 	}
 
 	private Pair getSocialForce(Particle p) {
@@ -51,7 +51,7 @@ public class EscapeParticle extends VerletParticle {
 			return new Pair(0, 0);
 		}
 		dir.normalize();
-		return ForcesUtils.getSocialForce(dir, e);
+		return SocialModel.getSocialForce(dir, e);
 	}
 
 	private Pair[] getGranularForce(Particle p) {
@@ -61,7 +61,7 @@ public class EscapeParticle extends VerletParticle {
 			return new Pair[] { new Pair(0, 0), new Pair(0, 0) };
 		}
 		dir.normalize();
-		return ForcesUtils.getForce(Pair.sub(velocity, p.velocity), dir, new Pair(-dir.y, dir.x), e);
+		return SocialModel.getForce(Pair.sub(velocity, p.velocity), dir, new Pair(-dir.y, dir.x), e);
 	}
 
 }

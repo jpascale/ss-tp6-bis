@@ -8,7 +8,7 @@ import java.util.Set;
 
 import run.Main;
 import utils.CellIndexMethod;
-import utils.ForcesUtils;
+import utils.SocialModel;
 
 public class Verlet {
 
@@ -69,12 +69,12 @@ public class Verlet {
 	private Pair wallForce(VerletParticle p) {
 		Pair sum = new Pair(0, 0);
 		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.fall) {
-			Pair[] force = ForcesUtils.wallLeftForce(p);
+			Pair[] force = SocialModel.wallLeftForce(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
 		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.fall) {
-			Pair[] force = ForcesUtils.wallRightForce(p);
+			Pair[] force = SocialModel.wallRightForce(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
@@ -86,7 +86,7 @@ public class Verlet {
 					p.addPressure(forceComponents[0]);
 				}
 			} else {
-				Pair[] force = ForcesUtils.wallBottomForce(p);
+				Pair[] force = SocialModel.wallBottomForce(p);
 				sum.add(Pair.sum(force[0], force[1]));
 				p.addPressure(force[0]);
 			}

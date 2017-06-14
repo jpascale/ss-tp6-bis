@@ -2,27 +2,17 @@ package utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OutputFileGenerator {
+
+	private String fileName;
+	List<String> lines = new ArrayList<>();
 	
-	private int frameNumber;
-	private String path;
-	List<String> lines;
-	
-	public OutputFileGenerator(String directory, String file) {
-		frameNumber = 0;
-		this.path = directory + file;
-		lines = new LinkedList<>();
-		try {
-			Files.createDirectories(Paths.get(directory));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public OutputFileGenerator(String file) {
+        this.fileName = file;
+    }
 	
 	public void addLine(String line) {
 		lines.add(line);
@@ -30,10 +20,11 @@ public class OutputFileGenerator {
 	
 	public void writeFile() {
 		try {
-		FileWriter fw = new FileWriter(path + ".txt", true);
+		FileWriter fw = new FileWriter(fileName, true);
 			for (String line : lines){
 				fw.write(line + "\n");
 			}
+            fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
