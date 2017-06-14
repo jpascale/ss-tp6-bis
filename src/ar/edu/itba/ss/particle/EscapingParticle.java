@@ -1,11 +1,11 @@
 package ar.edu.itba.ss.particle;
 
-public abstract class VerletParticle extends Particle {
+public abstract class EscapingParticle extends Particle {
 
 	private Pair oldPosition;
 	private double pressure;
 
-	public VerletParticle(int id, double x, double y, double vx, double vy, double m, double r) {
+	public EscapingParticle(int id, double x, double y, double vx, double vy, double m, double r) {
 		super(id, x, y, vx, vy, m, r);
 	}
 

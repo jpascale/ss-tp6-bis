@@ -1,22 +1,22 @@
 package ar.edu.itba.ss.main;
 
 import ar.edu.itba.ss.particle.Pair;
-import ar.edu.itba.ss.particle.VerletParticle;
+import ar.edu.itba.ss.particle.EscapingParticle;
 
 public class SocialModel {
 
 
-	public static Pair[] checkWallRight(VerletParticle p) {
+	public static Pair[] checkWallRight(EscapingParticle p) {
 		double e = p.getX() - Main.W + p.getRadius();
 		return getContactForce(p.getVelocity(), new Pair(1, 0), new Pair(0, 1), e);
 	}
 
-	public static Pair[] checkWallLeft(VerletParticle p) {
+	public static Pair[] checkWallLeft(EscapingParticle p) {
 		double e = p.getRadius() - p.getX();
 		return getContactForce(p.getVelocity(), new Pair(-1, 0), new Pair(0, -1), e);
 	}
 
-	public static Pair[] checkWallBottom(VerletParticle p) {
+	public static Pair[] checkWallBottom(EscapingParticle p) {
 		double e = -(p.getY() - Main.floorDistance) + p.getRadius();
 		return getContactForce(p.getVelocity(), new Pair(0, -1), new Pair(1, 0), e);
 	}

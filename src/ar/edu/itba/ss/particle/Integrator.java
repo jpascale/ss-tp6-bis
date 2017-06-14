@@ -8,38 +8,38 @@ import java.util.*;
 
 public class Integrator {
 
-	private List<VerletParticle> particles;
+	private List<EscapingParticle> particles;
 	private double dt;
-	private CellIndexMethod<VerletParticle> cim;
-	private List<VerletParticle> vertexParticles;
-	private LinkedList<VerletParticle> toRemove;
+	private CellIndexMethod<EscapingParticle> cim;
+	private List<EscapingParticle> vertexParticles;
+	private LinkedList<EscapingParticle> toRemove;
 
-	public Integrator(List<VerletParticle> particles, double dt) {
+	public Integrator(List<EscapingParticle> particles, double dt) {
 		this.particles = particles;
 		this.dt = dt;
 		estimateOldPosition();
 		vertexParticles = new LinkedList<>();
 		vertexParticles
-				.add(new EscapeParticle(0, Main.W / 2 - Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
+				.add(new FallParticle(0, Main.W / 2 - Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
 		vertexParticles
-				.add(new EscapeParticle(0, Main.W / 2 + Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
-		cim = new CellIndexMethod<VerletParticle>(particles, Main.L + Main.floorDistance, 1.6, 1, false);
-		toRemove = new LinkedList<VerletParticle>();
+				.add(new FallParticle(0, Main.W / 2 + Main.D / 2, Main.floorDistance, 0, 0, 0, 0));
+		cim = new CellIndexMethod<EscapingParticle>(particles, Main.L + Main.floorDistance, 1.6, 1, false);
+		toRemove = new LinkedList<EscapingParticle>();
 	}
 
 	private void estimateOldPosition() {
-		for (VerletParticle p : particles) {
+		for (EscapingParticle p : particles) {
 			p.updateOldPosition(p.getOwnForce(), dt);
 		}
 	}
 
 	public void run() {
-		Map<VerletParticle, Pair> forces = new HashMap<VerletParticle, Pair>();
-		Map<VerletParticle, Set<VerletParticle>> neighbours = cim.getNeighbours();
-		for (VerletParticle p : neighbours.keySet()) {
+		Map<EscapingParticle, Pair> forces = new HashMap<EscapingParticle, Pair>();
+		Map<EscapingParticle, Set<EscapingParticle>> neighbours = cim.getNeighbours();
+		for (EscapingParticle p : neighbours.keySet()) {
 			p.resetPressure();
 			Pair force = p.getOwnForce();
-			for (VerletParticle q : neighbours.get(p)) {
+			for (EscapingParticle q : neighbours.get(p)) {
 				Pair[] forceComponents = p.getForce(q);
 				force.add(Pair.sum(forceComponents[0], forceComponents[1]));
 				p.addPressure(forceComponents[0]);
@@ -49,20 +49,20 @@ public class Integrator {
 		}
 
 		time += dt;
-		for (VerletParticle p : neighbours.keySet()) {
+		for (EscapingParticle p : neighbours.keySet()) {
 			Pair oldPosition = p.getOldPosition();
 			updatePosition(p, forces.get(p), dt);
 			updateVelocity(p, oldPosition, dt);
 		}
 		while(!toRemove.isEmpty()){
-			VerletParticle p = toRemove.removeFirst();
+			EscapingParticle p = toRemove.removeFirst();
 			particles.remove(p);
 		}
 	}
 
 	static double time = 0;
 
-	private Pair wallForce(VerletParticle p) {
+	private Pair wallForce(EscapingParticle p) {
 		Pair sum = new Pair(0, 0);
 		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.floorDistance) {
 			Pair[] force = SocialModel.checkWallLeft(p);
@@ -76,7 +76,7 @@ public class Integrator {
 		}
 		if (Math.abs(p.position.y - Main.floorDistance) < p.getRadius()) {
 			if (inGap(p)) {
-				for (VerletParticle particle : vertexParticles) {
+				for (EscapingParticle particle : vertexParticles) {
 					Pair[] forceComponents = p.getForce(particle);
 					sum.add(Pair.sum(forceComponents[0], forceComponents[1]));
 					p.addPressure(forceComponents[0]);
@@ -90,14 +90,14 @@ public class Integrator {
 		return sum;
 	}
 
-	public boolean inGap(VerletParticle verletParticle) {
+	public boolean inGap(EscapingParticle verletParticle) {
 		double x = verletParticle.getX();
 		double w2 = Main.W / 2;
 		double d2 = Main.D / 2;
 		return x >= w2 - d2 && x <= w2 + d2;
 	}
 
-	private void updatePosition(VerletParticle p, Pair force, double dt) {
+	private void updatePosition(EscapingParticle p, Pair force, double dt) {
 		double rx = 2 * p.position.x - p.getOldPosition().x + force.x * Math.pow(dt, 2) / p.getMass();
 		double ry = 2 * p.position.y - p.getOldPosition().y + force.y * Math.pow(dt, 2) / p.getMass();
 
@@ -107,7 +107,7 @@ public class Integrator {
 		}
 	}
 
-	private void updateVelocity(VerletParticle p, Pair oldPosition, double dt) {
+	private void updateVelocity(EscapingParticle p, Pair oldPosition, double dt) {
 		double vx = (p.position.x - oldPosition.x) / (2 * dt);
 		double vy = (p.position.y - oldPosition.y) / (2 * dt);
 		p.updateVelocity(vx, vy);

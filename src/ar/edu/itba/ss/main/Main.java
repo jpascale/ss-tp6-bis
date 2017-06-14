@@ -2,10 +2,10 @@ package ar.edu.itba.ss.main;
 
 import ar.edu.itba.ss.output.Output;
 import ar.edu.itba.ss.output.OutputStat;
-import ar.edu.itba.ss.particle.EscapeParticle;
+import ar.edu.itba.ss.particle.FallParticle;
 import ar.edu.itba.ss.particle.Particle;
 import ar.edu.itba.ss.particle.Integrator;
-import ar.edu.itba.ss.particle.VerletParticle;
+import ar.edu.itba.ss.particle.EscapingParticle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Main {
 	static public double W = 20.0;
     static public double L = 20.0;
     static public double D = 1.2;
-    static public double floorDistance = 4.0;
+    static public double fgloorDistance = 4.0;
 	static public double desiredVelocity = 3.4;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
@@ -29,23 +29,23 @@ public class Main {
 	private static final double dt2 = 1.0 / 250;
     private static final Random random = new Random();
 
-	private static EscapeParticle createRandomParticle() {
+	private static FallParticle createRandomParticle() {
 		double r = randomNumber(0.5, 0.58) / 2.0;
 		double x = randomNumber(r, W - r);
 		double y = randomNumber(r + floorDistance, (L + floorDistance) - r);
-		return new EscapeParticle(id_count, x, y, 0, 0, mass, r);
+		return new FallParticle(id_count, x, y, 0, 0, mass, r);
 	}
 
     public static double randomNumber(double min, double max){
         return random.nextDouble() * (max - min) + min;
     }
 
-	private static List<VerletParticle> generateParticles(int N) {
-		List<VerletParticle> list = new ArrayList<>();
+	private static List<EscapingParticle> generateParticles(int N) {
+		List<EscapingParticle> list = new ArrayList<>();
 		while (id_count - 1 < N) {
-			EscapeParticle p = createRandomParticle();
+			FallParticle p = createRandomParticle();
 			boolean areOverlapped = false;
-			for (VerletParticle pp : list) {
+			for (EscapingParticle pp : list) {
 				if (Particle.getE(p, pp)) {
 					areOverlapped = true;
 					break;
@@ -64,7 +64,7 @@ public class Main {
 		Output output = new Output("out.txt");
 		OutputStat cineticEnergy = new OutputStat("cinetic.txt");
 		OutputStat caudal = new OutputStat("caudal.txt");
-		List<VerletParticle> particles = generateParticles(N);
+		List<EscapingParticle> particles = generateParticles(N);
 		Integrator v = new Integrator(particles, dt);
 		time = 0;
 		int totalCaudal = 0;
@@ -96,9 +96,9 @@ public class Main {
 		caudal.writeFile();
 	}
 
-	private static int getCaudal(List<VerletParticle> particles) {
+	private static int getCaudal(List<EscapingParticle> particles) {
 		int caudal = 0;
-		for (VerletParticle particle : particles) {
+		for (EscapingParticle particle : particles) {
 			if (particle.getOldPosition().y > floorDistance && particle.getPosition().y <= floorDistance) {
 				caudal += 1;
 			}
@@ -106,9 +106,9 @@ public class Main {
 		return caudal;
 	}
 
-	private static double getSystemCineticEnery(List<VerletParticle> particles) {
+	private static double getSystemCineticEnery(List<EscapingParticle> particles) {
 		double K = 0;
-		for (VerletParticle vp : particles) {
+		for (EscapingParticle vp : particles) {
 			K += vp.getKineticEnergy();
 		}
 		return K;

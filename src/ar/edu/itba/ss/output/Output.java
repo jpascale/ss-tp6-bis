@@ -1,6 +1,6 @@
 package ar.edu.itba.ss.output;
 
-import ar.edu.itba.ss.particle.VerletParticle;
+import ar.edu.itba.ss.particle.EscapingParticle;
 import ar.edu.itba.ss.main.Main;
 
 import java.io.FileWriter;
@@ -23,11 +23,11 @@ public class Output {
 		}
 	}
 
-	public void printState(List<? extends VerletParticle> particles) {
+	public void printState(List<? extends EscapingParticle> particles) {
 		List<String> lines = new LinkedList<>();
 		lines.add(String.valueOf(particles.size()));
 		lines.add("Comment");
-		for (VerletParticle p : particles) {
+		for (EscapingParticle p : particles) {
 			lines.add(p.getInfo());
 		}
 		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + borders(lines)));

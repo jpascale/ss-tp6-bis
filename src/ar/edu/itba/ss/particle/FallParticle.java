@@ -3,9 +3,9 @@ package ar.edu.itba.ss.particle;
 import ar.edu.itba.ss.main.Main;
 import ar.edu.itba.ss.main.SocialModel;
 
-public class EscapeParticle extends VerletParticle {
+public class FallParticle extends EscapingParticle {
 
-	public EscapeParticle(int id, double x, double y, double vx, double vy, double m, double r) {
+	public FallParticle(int id, double x, double y, double vx, double vy, double m, double r) {
 		super(id, x, y, vx, vy, m, r);
 	}
 
