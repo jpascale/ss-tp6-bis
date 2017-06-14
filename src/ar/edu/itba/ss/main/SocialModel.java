@@ -31,15 +31,21 @@ public class SocialModel {
 		return new Pair[] {n, t};
 	}
 
-
-	public static Pair getDrivingForce(Pair velocity, Pair normal) {
-		return new Pair ((Main.desiredVelocity * normal.x) - velocity.x / Main.TAU,
-				(Main.desiredVelocity * normal.y - velocity.y) / Main.TAU);
+	public static Pair getDrivingForce(Double mass, Pair velocity, Pair normal) {
+		double drivingV = Main.desiredVelocity;
+		double tau = Main.TAU;
+		Pair n = normal.clone();
+		n.times(drivingV);
+		Pair f = Pair.sub(n, velocity);
+		f.times(mass/ tau);
+		return f;
 	}
 
 	public static Pair getSocialForce(Pair normal, double e) {
-		double aux = Main.A * Math.exp(-e/Main.B);
-		return new Pair(normal.x * aux, normal.y * aux);
+		double A = Main.A;
+		double B = Main.B;
+		Pair n = normal.clone();
+		n.times(A * Math.exp(-e/B));
+		return n;
 	}
-
 }
