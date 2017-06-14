@@ -13,20 +13,25 @@ import java.util.Random;
 
 public class Main {
 
-	static private double time;
-	static public double W = 20.0;
-    static public double L = 20.0;
-    static public double D = 1.2;
-    static public double floorDistance = 4.0;
-	static public double desiredVelocity = 3.4;
-	static final public double Kn = 1.2e5, Kt = 2.4e5;
-	static final public double A = 2000, B = 0.08;
-	static private int N = 20;
-	static final public double TAU = 0.5;
-	static private int id_count = 1;
-	private static final double mass = 50;
+	private static int N = 20;
+	public static double desiredVelocity = 3.4;
 	private static final double dt = 1e-4;
 	private static final double dt2 = 1.0 / 250;
+
+	private static double time;
+	public static double W = 20.0;
+    public static double L = 20.0;
+    public static double D = 1.2;
+	public static final double Kn = 1.2e5, Kt = 2.4e5;
+	public static final double A = 2000, B = 0.08;
+
+    public static double floorDistance = 4.0;
+
+	final public static double TAU = 0.5;
+	private static int id_count = 1;
+	private static final double mass = 50;
+
+
     private static final Random random = new Random();
 
 	private static FallParticle createRandomParticle() {
@@ -44,14 +49,14 @@ public class Main {
 		List<EscapingParticle> list = new ArrayList<>();
 		while (id_count - 1 < N) {
 			FallParticle p = createRandomParticle();
-			boolean areOverlapped = false;
+			boolean isValid = false;
 			for (EscapingParticle pp : list) {
 				if (Particle.getE(p, pp)) {
-					areOverlapped = true;
+					isValid = true;
 					break;
 				}
 			}
-			if (!areOverlapped) {
+			if (!isValid) {
 				list.add(p);
 				id_count++;
 			}
