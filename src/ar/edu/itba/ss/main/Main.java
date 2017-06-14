@@ -17,7 +17,7 @@ public class Main {
 	static public double W = 20.0;
     static public double L = 20.0;
     static public double D = 1.2;
-    static public double fgloorDistance = 4.0;
+    static public double floorDistance = 4.0;
 	static public double desiredVelocity = 3.4;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
