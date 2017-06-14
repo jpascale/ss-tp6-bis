@@ -14,18 +14,19 @@ import java.util.List;
 public class Main {
 
 	static private double time;
-	static public double W = 20.0, L = 20.0, D = 1.2, fall = 4.0;
-	static public double drivingV = 1.5;
+	static public double W = 20.0;
+    static public double L = 20.0;
+    static public double D = 1.2;
+    static public double fall = 4.0;
+	static public double drivingV = 0.8;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
-	static private int N = 50;
+	static private int N = 200;
 	static final public double TAU = 0.5;
 	static private int idCounter = 1;
 	private static final double mass = 50;
-	private static final double maxTime = 5.0;
 	private static final double dt = 1e-4;
 	private static final double dt2 = 1.0 / 250;
-	private static final double MAX_ENERGY = 1e-6;
 
 
 
