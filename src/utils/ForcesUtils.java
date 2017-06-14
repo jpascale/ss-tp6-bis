@@ -30,7 +30,7 @@ public class ForcesUtils {
 		double e = -(p.getY() - Main.fall) + p.getRadius();
 		return getForce(p.getVelocity(), new Pair(0, -1), new Pair(1, 0), e);
 	}
-	
+
 	public static Pair getDrivingForce(Double mass, Pair velocity, Pair normal) {
 		double drivingV = Main.drivingV;
 		double tau = Main.TAU;

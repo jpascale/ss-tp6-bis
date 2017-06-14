@@ -21,7 +21,7 @@ public class Main {
 	static public double drivingV = 0.8;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
-	static private int N = 200;
+	static private int N = 20;
 	static final public double TAU = 0.5;
 	static private int idCounter = 1;
 	private static final double mass = 50;
@@ -58,7 +58,7 @@ public class Main {
 
     public static void main(String[] args){
         RandomUtils.setSeed(1234);
-		Output output = new Output("animation/", "state");
+		Output output = new Output("out");
 		OutputFileGenerator kineticEnergy = new OutputFileGenerator("animation/", "kinetic");
 		OutputFileGenerator caudal = new OutputFileGenerator("animation/", "caudal");
 		List<VerletParticle> particles = createParticles(N);

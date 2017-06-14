@@ -3,9 +3,9 @@ package utils;
 import model.VerletParticle;
 import run.Main;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,11 +15,11 @@ public class Output {
 	private int frameNumber;
 	private String path;
 
-	public Output(String directory, String file) {
+	public Output(String file) {
 		frameNumber = 0;
-		this.path = directory + file;
+		this.path = "a/" +file;
 		try {
-			Files.createDirectories(Paths.get(directory));
+			Files.createDirectories(Paths.get("a/"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -28,7 +28,7 @@ public class Output {
 	public void printState(List<? extends VerletParticle> particles) {
 		List<String> lines = new LinkedList<>();
 		lines.add(String.valueOf(particles.size()));
-		lines.add("Comment"); //TODO:Cambiar
+		lines.add("Comment");
 		for (VerletParticle p : particles) {
 			lines.add(p.getInfo(getColorByPresure(p), 0, 0));
 		}
@@ -57,10 +57,12 @@ public class Output {
     }
 
     private void writeFile(List<String> lines) {
-		Path file = Paths.get(path + frameNumber + ".xyz");
-		frameNumber++;
 		try {
-			Files.write(file, lines);
+            FileWriter fw = new FileWriter(path + ".txt", true);
+            for (String line: lines) {
+                fw.write(line + "\n");
+            }
+            fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

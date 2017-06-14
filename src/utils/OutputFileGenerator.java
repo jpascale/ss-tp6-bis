@@ -1,8 +1,8 @@
 package utils;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class OutputFileGenerator {
 	public OutputFileGenerator(String directory, String file) {
 		frameNumber = 0;
 		this.path = directory + file;
-		lines = new LinkedList<String>();
+		lines = new LinkedList<>();
 		try {
 			Files.createDirectories(Paths.get(directory));
 		} catch (Exception e) {
@@ -29,10 +29,11 @@ public class OutputFileGenerator {
 	}
 	
 	public void writeFile() {
-		Path file = Paths.get(path + ".txt");
-		frameNumber++;
 		try {
-			Files.write(file, lines);
+		FileWriter fw = new FileWriter(path + ".txt", true);
+			for (String line : lines){
+				fw.write(line + "\n");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
