@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import model.Pair;
 import model.Particle;
-import model.Point;
 
 public class CellIndexMethod <T extends Particle> {
 
@@ -92,8 +92,8 @@ public class CellIndexMethod <T extends Particle> {
 			return;
 		}
 
-		Point pp = p.getPosition().clone();
-		Point qq = q.getPosition().clone();
+		Pair pp = p.getPosition().clone();
+		Pair qq = q.getPosition().clone();
 
 		if (periodicBounds) {
 
@@ -114,7 +114,7 @@ public class CellIndexMethod <T extends Particle> {
 			}
 		}
 
-		double dist2 = Point.dist2(pp, qq);
+		double dist2 = Pair.dist2(pp, qq);
 		double r = rc + p.getRadius() + q.getRadius();
 
 		if (dist2 < r * r) {
@@ -132,7 +132,7 @@ public class CellIndexMethod <T extends Particle> {
 			}
 		}
 		for (T particle : particles) {
-			Point p = particle.getPosition();
+			Pair p = particle.getPosition();
 			try{
 				matrix[(int) (p.x / cellLength)][(int) (p.y / cellLength)].add(particle);
 			}catch(Exception e){
@@ -163,8 +163,8 @@ public class CellIndexMethod <T extends Particle> {
 	 * @param x - new x coordinate
 	 * @param y - new y coordinate
 	 */
-	public void moveTo(T particle, Point point){
-		/*Point p = particle.getPosition();
+	public void moveTo(T particle, Pair point){
+		/*Pair p = particle.getPosition();
 		int prevX = (int) (p.x / cellLength);
 		int prevY = (int) (p.y / cellLength);
 		int postX = (int) (point.x / cellLength);

@@ -10,21 +10,21 @@ public class EscapeParticle extends VerletParticle {
 	}
 
 	@Override
-	public Point getOwnForce() {
+	public Pair getOwnForce() {
 		return getDrivingForce();
 	}
 
 	@Override
-	public Point[] getForce(Particle p) {
-		Point[] granularForce = getGranularForce(p);
-		Point socialForce = getSocialForce(p);
-		Point n = Point.sum(granularForce[0], socialForce);
-		return new Point[] {n, granularForce[1]};
+	public Pair[] getForce(Particle p) {
+		Pair[] granularForce = getGranularForce(p);
+		Pair socialForce = getSocialForce(p);
+		Pair n = Pair.sum(granularForce[0], socialForce);
+		return new Pair[] {n, granularForce[1]};
 	}
 
-	private Point getDrivingForce() {
+	private Pair getDrivingForce() {
 
-		Point targetPosition = null;
+		Pair targetPosition = null;
 		if (getY()> Main.fall) {
 			double x;
 			if(getX()< Main.W / 2 - Main.D/2 + getRadius()){
@@ -35,33 +35,33 @@ public class EscapeParticle extends VerletParticle {
 			}else{
 				x = getX();
 			}
-			targetPosition = new Point(Main.W / 2, Main.fall);
+			targetPosition = new Pair(Main.W / 2, Main.fall);
 		}else{
-			targetPosition = new Point(getX(), -1);
+			targetPosition = new Pair(getX(), -1);
 		}
-		Point dir = Point.sub(targetPosition, position);
+		Pair dir = Pair.sub(targetPosition, position);
 		dir.normalize();
 		return ForcesUtils.getDrivingForce(getMass(), velocity, dir);
 	}
 
-	private Point getSocialForce(Particle p) {
-		Point dir = Point.sub(position, p.position);
+	private Pair getSocialForce(Particle p) {
+		Pair dir = Pair.sub(position, p.position);
 		double e = dir.abs() - p.getRadius() - getRadius();
 		if (e > 1) {
-			return new Point (0, 0);
+			return new Pair(0, 0);
 		}
 		dir.normalize();
 		return ForcesUtils.getSocialForce(dir, e);
 	}
 
-	private Point[] getGranularForce(Particle p) {
-		Point dir = Point.sub(p.position, position);
+	private Pair[] getGranularForce(Particle p) {
+		Pair dir = Pair.sub(p.position, position);
 		double e = p.getRadius() + getRadius() - dir.abs();
 		if (e < 0) {
-			return new Point[] { new Point(0, 0), new Point(0, 0) };
+			return new Pair[] { new Pair(0, 0), new Pair(0, 0) };
 		}
 		dir.normalize();
-		return ForcesUtils.getForce(Point.sub(velocity, p.velocity), dir, new Point(-dir.y, dir.x), e);
+		return ForcesUtils.getForce(Pair.sub(velocity, p.velocity), dir, new Pair(-dir.y, dir.x), e);
 	}
 
 }
