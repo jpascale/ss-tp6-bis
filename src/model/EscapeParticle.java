@@ -23,9 +23,9 @@ public class EscapeParticle extends VerletParticle {
 	}
 
 	private Point getDrivingForce() {
-		// the door position
+
 		Point targetPosition = null;
-		if(getY()> Main.fall){
+		if (getY()> Main.fall) {
 			double x;
 			if(getX()< Main.W / 2 - Main.D/2 + getRadius()){
 				x = Main.W / 2 - Main.D/2 + getRadius();
@@ -39,7 +39,7 @@ public class EscapeParticle extends VerletParticle {
 		}else{
 			targetPosition = new Point(getX(), -1);
 		}
-		Point dir = Point.sub(targetPosition, position );
+		Point dir = Point.sub(targetPosition, position);
 		dir.normalize();
 		return ForcesUtils.getDrivingForce(getMass(), velocity, dir);
 	}
@@ -48,7 +48,7 @@ public class EscapeParticle extends VerletParticle {
 		Point dir = Point.sub(position, p.position);
 		double e = dir.abs() - p.getRadius() - getRadius();
 		if (e > 1) {
-			return new Point (0, 0); // Ya no cuenta (habría que analizar si no se puede cortar antes el sistema)
+			return new Point (0, 0);
 		}
 		dir.normalize();
 		return ForcesUtils.getSocialForce(dir, e);

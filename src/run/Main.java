@@ -19,7 +19,7 @@ public class Main {
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
 	static private int N = 50;
-	static final public double tau = 0.5;
+	static final public double TAU = 0.5;
 	static private int idCounter = 1;
 	private static final double mass = 50;
 	private static final double maxTime = 5.0;
@@ -37,7 +37,7 @@ public class Main {
 	}
 
 	private static List<VerletParticle> createParticles(int N) {
-		List<VerletParticle> list = new ArrayList<VerletParticle>();
+		List<VerletParticle> list = new ArrayList<>();
 		while (idCounter - 1 < N) {
 			EscapeParticle p = createRandomParticle();
 			boolean areOverlapped = false;

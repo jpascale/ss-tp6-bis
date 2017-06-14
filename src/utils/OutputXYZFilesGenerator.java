@@ -1,15 +1,15 @@
 package utils;
 
+import model.Particle;
+import model.VerletParticle;
+import run.Main;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
-
-import model.Particle;
-import model.VerletParticle;
-import run.Main;
 
 public class OutputXYZFilesGenerator {
 
@@ -27,20 +27,35 @@ public class OutputXYZFilesGenerator {
 	}
 
 	public void printState(List<? extends VerletParticle> particles) {
-		List<String> lines = new LinkedList<String>();
+		List<String> lines = new LinkedList<>();
 		lines.add(String.valueOf(particles.size()));
-		lines.add("ParticleId xCoordinate yCoordinate xDisplacement yDisplacement Radius R G B Transparency Selection");
+		lines.add("ParticleId xCoordinate yCoordinate Radius R G B"); //TODO:Cambiar
 		for (VerletParticle p : particles) {
 			lines.add(getInfo(p, getColorByPresure(p), 0, 0));
 		}
-		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + addBorderParticles(lines)));
+		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + borders(lines)/*+ addBorderParticles(lines)*/));
 		writeFile(lines);
 	}
 
 	private String getColorByPresure(VerletParticle p) {
-		double relativePresure = p.getPressure()/400;
+		double relativePresure = p.getPressure() / 400;
 		return relativePresure + " 0 " + (1 - relativePresure); 
 	}
+
+	private int borders(List<String> lines){
+        lines.add("-1 0.0 4.0 0.3 1 0 0");
+        lines.add("-1 20.0 4.0 0.3 1 0 0");
+        lines.add("-1 5.0 4.0 0.3 1 0 0");
+        lines.add("-1 15.0 4.0 0.3 1 0 0");
+        lines.add("-1 0.0 0.0 0.3 1 0 0");
+        lines.add("-1 20.0 0.0 0.3 1 0 0");
+        lines.add("-1 0.0 24.0 0.3 1 0 0");
+        lines.add("-1 20.0 24.0 0.3 1 0 0");
+
+        lines.add("-1 " + String.valueOf(Main.W / 2.0 - Main.D / 2.0  - 0.3) + " 4.0 0.3 1 0 0");
+        lines.add("-1 " + String.valueOf(Main.W / 2.0 + Main.D / 2.0  + 0.3) + " 4.0 0.3 1 0 0");
+        return 10;
+    }
 
 	private int addBorderParticles(List<String> lines) {
 		int counter = 0;
@@ -58,8 +73,7 @@ public class OutputXYZFilesGenerator {
 	}
 
 	private String getInfo(Particle p, String color, double transparency, int selection) {
-		return p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getXVelocity() + " " + p.getYVelocity() + " "
-				+ p.getRadius() + " " + "1 0 0" + " " + transparency + " " + selection;
+		return p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getRadius() + " " + "255 255 255";
 	}
 
 	private void writeFile(List<String> lines) {
