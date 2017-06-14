@@ -4,7 +4,7 @@ import ar.edu.itba.ss.output.Output;
 import ar.edu.itba.ss.output.OutputStat;
 import ar.edu.itba.ss.particle.EscapeParticle;
 import ar.edu.itba.ss.particle.Particle;
-import ar.edu.itba.ss.particle.Verlet;
+import ar.edu.itba.ss.particle.Integrator;
 import ar.edu.itba.ss.particle.VerletParticle;
 
 import java.util.ArrayList;
@@ -37,10 +37,10 @@ public class Main {
 	}
 
     public static double randomNumber(double min, double max){
-        return random.nextDouble()*(max-min)+min;
+        return random.nextDouble() * (max - min) + min;
     }
 
-	private static List<VerletParticle> createParticles(int N) {
+	private static List<VerletParticle> generateParticles(int N) {
 		List<VerletParticle> list = new ArrayList<>();
 		while (id_count - 1 < N) {
 			EscapeParticle p = createRandomParticle();
@@ -62,10 +62,10 @@ public class Main {
     public static void main(String[] args){
         random.setSeed(1234);
 		Output output = new Output("out.txt");
-		OutputStat kineticEnergy = new OutputStat("kinetic.txt");
+		OutputStat cineticEnergy = new OutputStat("cinetic.txt");
 		OutputStat caudal = new OutputStat("caudal.txt");
-		List<VerletParticle> particles = createParticles(N);
-		Verlet v = new Verlet(particles, dt);
+		List<VerletParticle> particles = generateParticles(N);
+		Integrator v = new Integrator(particles, dt);
 		time = 0;
 		int totalCaudal = 0;
 		double lastTime = -dt2-1.0;
@@ -75,8 +75,8 @@ public class Main {
 		while (totalCaudal < N) {
 			if (lastTime + dt2 < time) {
 				output.printState(particles);
-				energy = getSystemKineticEnery(particles);
-				kineticEnergy.addLine(String.valueOf(energy));
+				energy = getSystemCineticEnery(particles);
+				cineticEnergy.addLine(String.valueOf(energy));
 				double mp = particles.stream().mapToDouble(x -> x.getPressure()).max().getAsDouble();
 				if (maxPressure < mp) {
 					maxPressure = mp;
@@ -92,7 +92,7 @@ public class Main {
 			time += dt;
 		}
 		System.out.println("Time: " + time);
-		kineticEnergy.writeFile();
+		cineticEnergy.writeFile();
 		caudal.writeFile();
 	}
 
@@ -106,7 +106,7 @@ public class Main {
 		return caudal;
 	}
 
-	private static double getSystemKineticEnery(List<VerletParticle> particles) {
+	private static double getSystemCineticEnery(List<VerletParticle> particles) {
 		double K = 0;
 		for (VerletParticle vp : particles) {
 			K += vp.getKineticEnergy();

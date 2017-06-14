@@ -5,7 +5,23 @@ import ar.edu.itba.ss.particle.VerletParticle;
 
 public class SocialModel {
 
-	public static Pair[] getForce(Pair relativeVelocity, Pair normal, Pair tangential, double e) {
+
+	public static Pair[] checkWallRight(VerletParticle p) {
+		double e = p.getX() - Main.W + p.getRadius();
+		return getContactForce(p.getVelocity(), new Pair(1, 0), new Pair(0, 1), e);
+	}
+
+	public static Pair[] checkWallLeft(VerletParticle p) {
+		double e = p.getRadius() - p.getX();
+		return getContactForce(p.getVelocity(), new Pair(-1, 0), new Pair(0, -1), e);
+	}
+
+	public static Pair[] checkWallBottom(VerletParticle p) {
+		double e = -(p.getY() - Main.fall) + p.getRadius();
+		return getContactForce(p.getVelocity(), new Pair(0, -1), new Pair(1, 0), e);
+	}
+
+	public static Pair[] getContactForce(Pair relativeVelocity, Pair normal, Pair tangential, double e) {
 		double Kn = Main.Kn;
 		double Kt = Main.Kt;
 		Pair n = normal.clone();
@@ -13,21 +29,6 @@ public class SocialModel {
 		double prod = Pair.scalarProd(relativeVelocity, tangential);
 		Pair t = new Pair(-Kt * e * prod * tangential.x, -Kt * e * prod * tangential.y);
 		return new Pair[] {n, t};
-	}
-
-	public static Pair[] wallRightForce(VerletParticle p) {
-		double e = p.getX() - Main.W + p.getRadius();
-		return getForce(p.getVelocity(), new Pair(1, 0), new Pair(0, 1), e);
-	}
-
-	public static Pair[] wallLeftForce(VerletParticle p) {
-		double e = p.getRadius() - p.getX();
-		return getForce(p.getVelocity(), new Pair(-1, 0), new Pair(0, -1), e);
-	}
-
-	public static Pair[] wallBottomForce(VerletParticle p) {
-		double e = -(p.getY() - Main.fall) + p.getRadius();
-		return getForce(p.getVelocity(), new Pair(0, -1), new Pair(1, 0), e);
 	}
 
 	public static Pair getDrivingForce(Double mass, Pair velocity, Pair normal) {

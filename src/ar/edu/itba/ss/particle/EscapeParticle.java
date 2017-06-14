@@ -52,7 +52,7 @@ public class EscapeParticle extends VerletParticle {
 			return new Pair[] { new Pair(0, 0), new Pair(0, 0) };
 		}
 		dir.normalize();
-		return SocialModel.getForce(Pair.sub(velocity, p.velocity), dir, new Pair(-dir.y, dir.x), e);
+		return SocialModel.getContactForce(Pair.sub(velocity, p.velocity), dir, new Pair(-dir.y, dir.x), e);
 	}
 
 }

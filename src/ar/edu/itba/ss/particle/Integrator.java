@@ -1,16 +1,12 @@
 package ar.edu.itba.ss.particle;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import ar.edu.itba.ss.main.Main;
 import ar.edu.itba.ss.cell.CellIndexMethod;
+import ar.edu.itba.ss.main.Main;
 import ar.edu.itba.ss.main.SocialModel;
 
-public class Verlet {
+import java.util.*;
+
+public class Integrator {
 
 	private List<VerletParticle> particles;
 	private double dt;
@@ -18,7 +14,7 @@ public class Verlet {
 	private List<VerletParticle> vertexParticles;
 	private LinkedList<VerletParticle> toRemove;
 
-	public Verlet(List<VerletParticle> particles, double dt) {
+	public Integrator(List<VerletParticle> particles, double dt) {
 		this.particles = particles;
 		this.dt = dt;
 		estimateOldPosition();
@@ -69,12 +65,12 @@ public class Verlet {
 	private Pair wallForce(VerletParticle p) {
 		Pair sum = new Pair(0, 0);
 		if (p.position.x - p.getRadius() < 0 && p.position.y > Main.fall) {
-			Pair[] force = SocialModel.wallLeftForce(p);
+			Pair[] force = SocialModel.checkWallLeft(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
 		if (p.position.x + p.getRadius() > Main.W && p.position.y > Main.fall) {
-			Pair[] force = SocialModel.wallRightForce(p);
+			Pair[] force = SocialModel.checkWallRight(p);
 			sum.add(Pair.sum(force[0], force[1]));
 			p.addPressure(force[0]);
 		}
@@ -86,7 +82,7 @@ public class Verlet {
 					p.addPressure(forceComponents[0]);
 				}
 			} else {
-				Pair[] force = SocialModel.wallBottomForce(p);
+				Pair[] force = SocialModel.checkWallBottom(p);
 				sum.add(Pair.sum(force[0], force[1]));
 				p.addPressure(force[0]);
 			}
