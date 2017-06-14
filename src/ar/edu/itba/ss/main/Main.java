@@ -21,7 +21,7 @@ public class Main {
 	static public double desiredVelocity = 3.4;
 	static final public double Kn = 1.2e5, Kt = 2.4e5;
 	static final public double A = 2000, B = 0.08;
-	static private int N = 200;
+	static private int N = 20;
 	static final public double TAU = 0.5;
 	static private int id_count = 1;
 	private static final double mass = 50;
@@ -62,21 +62,17 @@ public class Main {
     public static void main(String[] args){
         random.setSeed(1234);
 		Output output = new Output("out.txt");
-		OutputStat cineticEnergy = new OutputStat("cinetic.txt");
 		OutputStat caudal = new OutputStat("caudal.txt");
 		List<EscapingParticle> particles = generateParticles(N);
 		Integrator v = new Integrator(particles, dt);
 		time = 0;
 		int totalCaudal = 0;
-		double lastTime = -dt2-1.0;
+		double lastTime = - dt2 - 1.0;
 		double maxPressure = 0.0;
-		double energy;
 
 		while (totalCaudal < N) {
 			if (lastTime + dt2 < time) {
 				output.printState(particles);
-				energy = getSystemCineticEnery(particles);
-				cineticEnergy.addLine(String.valueOf(energy));
 				double mp = particles.stream().mapToDouble(x -> x.getPressure()).max().getAsDouble();
 				if (maxPressure < mp) {
 					maxPressure = mp;
@@ -91,8 +87,7 @@ public class Main {
 			}
 			time += dt;
 		}
-		System.out.println("Time: " + time);
-		cineticEnergy.writeFile();
+		System.out.println("Time elapsed: " + time);
 		caudal.writeFile();
 	}
 
@@ -104,14 +99,6 @@ public class Main {
 			}
 		}
 		return caudal;
-	}
-
-	private static double getSystemCineticEnery(List<EscapingParticle> particles) {
-		double K = 0;
-		for (EscapingParticle vp : particles) {
-			K += vp.getKineticEnergy();
-		}
-		return K;
 	}
 
 }

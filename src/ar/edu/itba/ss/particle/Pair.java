@@ -66,10 +66,6 @@ public class Pair {
 	static public double scalarProd(Pair p1, Pair p2){
 		return p1.x*p2.x+p1.y*p2.y;
 	}
-	
-	static public double vectorProd(Pair p1, Pair p2){
-		return p1.x*p2.y-p2.x*p1.y;
-	}
 
 
 	public void normalize() {
