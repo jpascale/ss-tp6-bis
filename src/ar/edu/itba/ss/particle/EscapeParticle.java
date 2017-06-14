@@ -1,7 +1,7 @@
-package model;
+package ar.edu.itba.ss.particle;
 
-import run.Main;
-import utils.SocialModel;
+import ar.edu.itba.ss.main.Main;
+import ar.edu.itba.ss.output.SocialModel;
 
 public class EscapeParticle extends VerletParticle {
 
@@ -24,17 +24,8 @@ public class EscapeParticle extends VerletParticle {
 
 	private Pair getDrivingForce() {
 
-		Pair targetPosition = null;
+		Pair targetPosition;
 		if (getY()> Main.fall) {
-			double x;
-			if(getX()< Main.W / 2 - Main.D/2 + getRadius()){
-				x = Main.W / 2 - Main.D/2 + getRadius();
-			}else
-			if(getX()> Main.W / 2 + Main.D/2 - getRadius()){
-				x = Main.W / 2 + Main.D/2 - getRadius();
-			}else{
-				x = getX();
-			}
 			targetPosition = new Pair(Main.W / 2, Main.fall);
 		}else{
 			targetPosition = new Pair(getX(), -1);

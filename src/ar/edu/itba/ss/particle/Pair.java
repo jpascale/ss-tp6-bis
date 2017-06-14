@@ -1,4 +1,4 @@
-package model;
+package ar.edu.itba.ss.particle;
 
 import java.util.function.Function;
 

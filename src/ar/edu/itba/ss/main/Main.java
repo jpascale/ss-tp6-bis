@@ -1,15 +1,15 @@
-package run;
+package ar.edu.itba.ss.main;
 
-import model.EscapeParticle;
-import model.Particle;
-import model.Verlet;
-import model.VerletParticle;
-import utils.OutputFileGenerator;
-import utils.Output;
-import utils.RandomUtils;
+import ar.edu.itba.ss.output.Output;
+import ar.edu.itba.ss.output.OutputFileGenerator;
+import ar.edu.itba.ss.particle.EscapeParticle;
+import ar.edu.itba.ss.particle.Particle;
+import ar.edu.itba.ss.particle.Verlet;
+import ar.edu.itba.ss.particle.VerletParticle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
 
@@ -27,15 +27,18 @@ public class Main {
 	private static final double mass = 50;
 	private static final double dt = 1e-4;
 	private static final double dt2 = 1.0 / 250;
-
-
+    private static final Random random = new Random();
 
 	private static EscapeParticle createRandomParticle() {
-		double r = RandomUtils.getRandomDouble(0.5, 0.58) / 2.0;
-		double x = RandomUtils.getRandomDouble(r, W - r);
-		double y = RandomUtils.getRandomDouble(r + fall, (L + fall) - r);
+		double r = randomNumber(0.5, 0.58) / 2.0;
+		double x = randomNumber(r, W - r);
+		double y = randomNumber(r + fall, (L + fall) - r);
 		return new EscapeParticle(idCounter, x, y, 0, 0, mass, r);
 	}
+
+    public static double randomNumber(double min, double max){
+        return random.nextDouble()*(max-min)+min;
+    }
 
 	private static List<VerletParticle> createParticles(int N) {
 		List<VerletParticle> list = new ArrayList<>();
@@ -57,7 +60,7 @@ public class Main {
 	}
 
     public static void main(String[] args){
-        RandomUtils.setSeed(1234);
+        random.setSeed(1234);
 		Output output = new Output("out.txt");
 		OutputFileGenerator kineticEnergy = new OutputFileGenerator("kinetic.txt");
 		OutputFileGenerator caudal = new OutputFileGenerator("caudal.txt");

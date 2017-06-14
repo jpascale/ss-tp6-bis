@@ -1,8 +1,8 @@
-package utils;
+package ar.edu.itba.ss.output;
 
-import model.Pair;
-import model.VerletParticle;
-import run.Main;
+import ar.edu.itba.ss.particle.Pair;
+import ar.edu.itba.ss.particle.VerletParticle;
+import ar.edu.itba.ss.main.Main;
 
 public class SocialModel {
 

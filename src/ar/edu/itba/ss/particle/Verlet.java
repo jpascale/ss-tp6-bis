@@ -1,4 +1,4 @@
-package model;
+package ar.edu.itba.ss.particle;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import run.Main;
-import utils.CellIndexMethod;
-import utils.SocialModel;
+import ar.edu.itba.ss.main.Main;
+import ar.edu.itba.ss.cell.CellIndexMethod;
+import ar.edu.itba.ss.output.SocialModel;
 
 public class Verlet {
 

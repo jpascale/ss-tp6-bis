@@ -1,7 +1,7 @@
-package utils;
+package ar.edu.itba.ss.output;
 
-import model.VerletParticle;
-import run.Main;
+import ar.edu.itba.ss.particle.VerletParticle;
+import ar.edu.itba.ss.main.Main;
 
 import java.io.FileWriter;
 import java.io.IOException;

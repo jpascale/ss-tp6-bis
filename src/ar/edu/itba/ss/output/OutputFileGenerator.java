@@ -1,4 +1,4 @@
-package utils;
+package ar.edu.itba.ss.output;
 
 import java.io.FileWriter;
 import java.io.IOException;

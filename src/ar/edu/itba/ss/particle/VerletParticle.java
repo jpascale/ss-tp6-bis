@@ -1,4 +1,4 @@
-package model;
+package ar.edu.itba.ss.particle;
 
 public abstract class VerletParticle extends Particle {
 

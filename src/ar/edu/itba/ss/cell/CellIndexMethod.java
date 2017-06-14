@@ -1,7 +1,7 @@
-package utils;
+package ar.edu.itba.ss.cell;
 
-import model.Pair;
-import model.Particle;
+import ar.edu.itba.ss.particle.Pair;
+import ar.edu.itba.ss.particle.Particle;
 
 import java.util.*;
 
