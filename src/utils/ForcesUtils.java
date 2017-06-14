@@ -32,7 +32,6 @@ public class ForcesUtils {
 	}
 	
 	public static Point getDrivingForce(Double mass, Point velocity, Point normal) {
-		//revisar esto
 		double drivingV = Main.drivingV;
 		double tau = Main.TAU;
 		Point n = normal.clone();

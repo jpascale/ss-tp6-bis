@@ -118,6 +118,8 @@ public class Particle {
 		return true;
 	}
 
-	
-	
+
+	public String getInfo(String color, double transparency, int selection) {
+		return getId() + " " + getX() + " " + getY() + " " + getRadius() + " " + "255 255 255";
+	}
 }

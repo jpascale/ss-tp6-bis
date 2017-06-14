@@ -1,6 +1,5 @@
 package utils;
 
-import model.Particle;
 import model.VerletParticle;
 import run.Main;
 
@@ -11,12 +10,12 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
-public class OutputXYZFilesGenerator {
+public class Output {
 
 	private int frameNumber;
 	private String path;
 
-	public OutputXYZFilesGenerator(String directory, String file) {
+	public Output(String directory, String file) {
 		frameNumber = 0;
 		this.path = directory + file;
 		try {
@@ -29,11 +28,11 @@ public class OutputXYZFilesGenerator {
 	public void printState(List<? extends VerletParticle> particles) {
 		List<String> lines = new LinkedList<>();
 		lines.add(String.valueOf(particles.size()));
-		lines.add("ParticleId xCoordinate yCoordinate Radius R G B"); //TODO:Cambiar
+		lines.add("Comment"); //TODO:Cambiar
 		for (VerletParticle p : particles) {
-			lines.add(getInfo(p, getColorByPresure(p), 0, 0));
+			lines.add(p.getInfo(getColorByPresure(p), 0, 0));
 		}
-		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + borders(lines)/*+ addBorderParticles(lines)*/));
+		lines.set(0, String.valueOf(Integer.valueOf(lines.get(0)) + borders(lines)));
 		writeFile(lines);
 	}
 
@@ -57,26 +56,7 @@ public class OutputXYZFilesGenerator {
         return 10;
     }
 
-	private int addBorderParticles(List<String> lines) {
-		int counter = 0;
-		for (double i = 0; i * 0.02 <= Main.L; i++) {
-			lines.add("10000 0 " + (i * 0.02 + Main.fall) + " 0 0 0.02 0 1 0 0 0");
-			lines.add("10000 " + Main.W + " " + (i * 0.02 + Main.fall) + " 0 0 0.02 0 1 0 0 0");
-			counter += 2;
-		}
-		for (int i = 0; i * 0.02 <= (Main.W - Main.D) / 2; i++) {
-			lines.add("10000 " + i * 0.02 + " " + Main.fall + " 0 0 0.02 0 1 0 0 0");
-			lines.add("10000 " + (Main.W - i * 0.02) + " " + Main.fall + " 0 0 0.02 0 1 0 0 0");
-			counter += 2;
-		}
-		return counter;
-	}
-
-	private String getInfo(Particle p, String color, double transparency, int selection) {
-		return p.getId() + " " + p.getX() + " " + p.getY() + " " + p.getRadius() + " " + "255 255 255";
-	}
-
-	private void writeFile(List<String> lines) {
+    private void writeFile(List<String> lines) {
 		Path file = Paths.get(path + frameNumber + ".xyz");
 		frameNumber++;
 		try {

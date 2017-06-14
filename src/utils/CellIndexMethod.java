@@ -37,24 +37,9 @@ public class CellIndexMethod <T extends Particle> {
 		fillMatrix(particles, m);
 	}
 
-	public Set<T>[][] getMatrix() {
-		return matrix;
-	}
-
-	public boolean isPeriodicBounds() {
-		return periodicBounds;
-	}
-
-	public double getRc() {
-		return rc;
-	}
-
-	public double getL() {
-		return l;
-	}
 
 	public Map<T, Set<T>> getNeighbours() {
-		Map<T, Set<T>> neighbours = new HashMap<T, Set<T>>();
+		Map<T, Set<T>> neighbours = new HashMap<>();
 		fillMatrix(particles, m);
 		for (T p : particles) {
 			neighbours.put(p, new HashSet<T>());

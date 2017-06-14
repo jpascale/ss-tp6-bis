@@ -5,7 +5,7 @@ import model.Particle;
 import model.Verlet;
 import model.VerletParticle;
 import utils.OutputFileGenerator;
-import utils.OutputXYZFilesGenerator;
+import utils.Output;
 import utils.RandomUtils;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class Main {
 
     public static void main(String[] args){
         RandomUtils.setSeed(1234);
-		OutputXYZFilesGenerator outputXYZFilesGenerator = new OutputXYZFilesGenerator("animation/", "state");
+		Output output = new Output("animation/", "state");
 		OutputFileGenerator kineticEnergy = new OutputFileGenerator("animation/", "kinetic");
 		OutputFileGenerator caudal = new OutputFileGenerator("animation/", "caudal");
 		List<VerletParticle> particles = createParticles(N);
@@ -71,7 +71,7 @@ public class Main {
 
 		while (totalCaudal < N) {
 			if (lastTime + dt2 < time) {
-				outputXYZFilesGenerator.printState(particles);
+				output.printState(particles);
 				energy = getSystemKineticEnery(particles);
 				kineticEnergy.addLine(String.valueOf(energy));
 				double mp = particles.stream().mapToDouble(x -> x.getPressure()).max().getAsDouble();
